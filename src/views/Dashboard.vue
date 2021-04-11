@@ -1,9 +1,6 @@
 <template>
   <div class="dashboard">
-    <img
-      alt="Vue logo"
-      src="../assets/logo.png"
-    >
+    <p>Passwords:</p>
   </div>
 </template>
 
