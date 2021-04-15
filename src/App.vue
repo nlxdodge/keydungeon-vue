@@ -1,38 +1,58 @@
 <template>
-  <div class="app">
-    <nav v-if="isLoggedIn()">
-      <router-link to="/">
-        Dashboard
-      </router-link> |
-      <router-link to="/user">
-        User
-      </router-link>
-      <div @click="logout()">
-        Log out
-      </div>
-    </nav>
+  <div
+    id="app"
+    :class="backgroundColorClass"
+  >
+    <header>
+      <nav v-if="userSignedIn">
+        <img
+          src="./assets/images/key_small.svg"
+          alt="Logo"
+        >
+        <router-link to="/dashboard">
+          Passwords
+        </router-link>
+        <router-link to="/user">
+          User
+        </router-link>
+        <div
+          class="sign-off"
+          @click="signOff()"
+        >
+          Sign Off
+        </div>
+      </nav>
+    </header>
     <router-view />
   </div>
 </template>
 
 <script>
-
 export default {
-  name: 'App',
-  data () {
+  name: "App",
+  data() {
     return {
-      signedIn: false
-    }
+      signedIn: true,
+      backgroundColorClass: "dark",
+    };
   },
   computed: {
-    isLoggedIn () {
+    userSignedIn() {
       return this.signedIn;
-    }
-  }
-}
+    },
+  },
+  methods: {
+    signOff() {
+      console.log("signing out");
+    },
+  },
+};
 </script>
 
 <style lang="scss">
+@import "normalize-scss";
+@include normalize();
+
 @font-face {
   font-family: "AlegreyaSans";
   src: url("assets/fonts/AlegreyaSans-Light.ttf") format("truetype");
@@ -44,8 +64,12 @@ export default {
 }
 
 html {
-  background-color: #242424;
+  background-color: #fff;
   font-size: 20px;
+
+  &.dark {
+    background-color: #242424;
+  }
 }
 
 #app,
@@ -55,16 +79,39 @@ input {
   -moz-osx-font-smoothing: grayscale;
 }
 
-#nav {
-  padding: 30px;
-}
+header {
+  height: 50px;
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #242424;
+    color: #fff;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+    & > *:not(img) {
+      padding: 13px;
+
+      &:hover:not(img) {
+        background-color: #f1c40f;
+        color: #242424;
+        cursor: pointer;
+      }
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    img {
+      width: 40px;
+      margin: 5px 8px 5px 5px;
+    }
+  }
 }
 </style>
