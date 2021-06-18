@@ -86,13 +86,13 @@ export default {
   .block {
     max-width: 300px;
     padding: 25px 25px 25px 25px;
-    background-color: #f2f2f2;
-    border: 6px double #242424;
+    background-color: $template-color-light;
+    border: 6px double $template-color-dark;
     h1 {
-      font-family: BlackChancery, Helvetica, Arial, sans-serif;
+      font-family: Blackchancery, Helvetica, Arial, sans-serif;
       text-align: center;
       margin: 5px 0 10px 0;
-      color: #f1c40f;
+      color: $template-color-main;
       font-size: 50px;
     }
     img {

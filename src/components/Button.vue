@@ -23,7 +23,7 @@ export default {
   text-decoration: none;
   color: #f2f2f2;
   border: none;
-  padding: 5px 0;
+  padding: 6px 0;
   width: 124px;
   text-align: center;
 
@@ -32,6 +32,10 @@ export default {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
+  @include media("<=phone") {
+    width: 100%;
+  }
 
   &:hover {
     cursor: pointer;

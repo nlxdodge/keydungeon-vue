@@ -50,22 +50,9 @@ export default {
 </script>
 
 <style lang="scss">
-@import "normalize-scss";
-@include normalize();
-
-@font-face {
-  font-family: "AlegreyaSans";
-  src: url("assets/fonts/AlegreyaSans-Light.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "BlackChancery";
-  src: url("assets/fonts/BlackChancery.ttf") format("truetype");
-}
-
 html {
   background-color: #fff;
-  font-size: 20px;
+  font-size: 24px;
 
   &.dark {
     background-color: #242424;

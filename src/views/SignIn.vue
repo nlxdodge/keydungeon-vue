@@ -89,7 +89,7 @@ export default {
     background-color: #f2f2f2;
     border: 6px double #242424;
     h1 {
-      font-family: BlackChancery, Helvetica, Arial, sans-serif;
+      font-family: Blackchancery, Helvetica, Arial, sans-serif;
       text-align: center;
       margin: 5px 0 10px 0;
       color: #f1c40f;
