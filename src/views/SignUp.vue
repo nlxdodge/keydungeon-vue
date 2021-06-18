@@ -38,8 +38,8 @@
   </div>
 </template>
 
-<script>
-import Button from "../components/Button";
+<script lang="ts">
+import Button from "../components/Button.vue";
 
 export default {
   name: "SignUp",
