@@ -26,6 +26,7 @@ export default {
   padding: 6px 0;
   width: 124px;
   text-align: center;
+  margin-top: 10px;
 
   -webkit-user-select: none;
   -khtml-user-select: none;
