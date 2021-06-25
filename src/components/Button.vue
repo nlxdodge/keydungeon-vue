@@ -36,7 +36,7 @@ export default defineComponent({
   -ms-user-select: none;
   user-select: none;
 
-  @include media("<=phone") {
+  @include media("<tablet") {
     width: 100%;
   }
 

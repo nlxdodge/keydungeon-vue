@@ -14,7 +14,7 @@
         />
       </form>
       <table>
-        <caption>Past sign-ins</caption>
+        <caption>Past sign-ins:</caption>
         <tr>
           <td>
             1

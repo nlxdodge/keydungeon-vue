@@ -1,11 +1,15 @@
 <template>
   <div class="passwords">
     <div class="block">
-      <div class="flex">
+      <div class="top">
         <p>You currently have {{ passwords.length }} accounts</p>
         <Button
           @click="$router.push('/passwords/add')"
           text="Add"
+        />
+        <InputLine
+          name="filter"
+          :v-model="filter"
         />
       </div>
       <div
@@ -22,15 +26,18 @@
 import { defineComponent } from 'vue';
 import PasswordLine from '../../components/PasswordLine.vue'
 import Button from '../../components/Button.vue'
+import InputLine from '../../components/InputLine.vue'
 
 export default defineComponent({
   name: 'Passwords',
   components: {
     PasswordLine,
     Button,
-  },
+    InputLine,
+},
   data() {
     return {
+      filter: '',
       passwords: [
         {
           url: 'https://bla.com/',
@@ -44,6 +51,18 @@ export default defineComponent({
           username: 'nlxdodge@gmail.com',
           password: 'password2',
         },
+        {
+          url: 'https://bla2.com/',
+          name: 'Twitter',
+          username: 'nlxdodge@gmail.com',
+          password: 'password2',
+        },
+        {
+          url: 'https://bla2.com/',
+          name: 'Wordpress',
+          username: 'nlxdodge@gmail.com',
+          password: 'password2',
+        },
       ],
     }
   },
@@ -52,8 +71,15 @@ export default defineComponent({
 
 <style lang="scss">
 .passwords {
-  .flex {
+  .top {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .button {
+      margin: 0;
+    }
   }
 
   display: grid;
@@ -64,7 +90,7 @@ export default defineComponent({
   }
 
   @include media('>desktop') {
-    grid-template-columns: 35% 30% 35%;
+    grid-template-columns: 30% 40% 30%;
   }
 
   .block {

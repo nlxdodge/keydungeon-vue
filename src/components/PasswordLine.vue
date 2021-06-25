@@ -36,7 +36,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.password {
+.password-line {
+  margin-top: 20px;
+  padding: 10px;
   border: 1px solid black;
+  
+  p {
+    margin: 10px 0;
+  }
 }
 </style>
