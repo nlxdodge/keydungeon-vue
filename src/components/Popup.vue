@@ -11,7 +11,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'Popup',
   props: {
     message: {
@@ -36,7 +38,7 @@ export default {
       this.show = false
     }
   }
-}
+})
 </script>
 
 <style lang="scss">

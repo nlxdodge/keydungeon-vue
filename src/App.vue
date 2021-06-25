@@ -28,12 +28,14 @@
 </template>
 
 <script lang="ts">
-export default {
-  name: "App",
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'App',
   data() {
     return {
       signedIn: true,
-      backgroundColorClass: "dark",
+      backgroundColorClass: 'dark',
     };
   },
   computed: {
@@ -43,10 +45,10 @@ export default {
   },
   methods: {
     signOff() {
-      console.log("signing out");
+      console.log('signing out')
     },
   },
-};
+})
 </script>
 
 <style lang="scss">

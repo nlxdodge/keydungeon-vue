@@ -39,9 +39,10 @@
 </template>
 
 <script lang="ts">
-import Button from "@/components/Button.vue";
+import { defineComponent } from 'vue'
+import Button from '../components/Button.vue'
 
-export default {
+export default defineComponent({
   name: "SignIn",
   components: {
     Button,
@@ -73,7 +74,7 @@ export default {
       }
     },
   },
-};
+})
 </script>
 
 <style lang="scss">

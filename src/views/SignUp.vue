@@ -39,23 +39,24 @@
 </template>
 
 <script lang="ts">
-import Button from "../components/Button.vue";
+import { defineComponent } from 'vue'
+import Button from '../components/Button.vue'
 
-export default {
-  name: "SignUp",
+export default defineComponent({
+  name: "SignUp", 
   components: {
     Button,
   },
   data() {
     return {
-      username: "",
+      email: "",
       password: "",
     };
   },
   computed: {
     formValid() {
       return (
-        this.username.length > 8 &&
+        this.email.length > 8 &&
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()\-=_+`~;:<>,.{}[\]|\\]).{8,}$/.test(
           this.password
         )
@@ -73,7 +74,7 @@ export default {
       }
     },
   },
-};
+})
 </script>
 
 <style lang="scss">

@@ -1,9 +1,6 @@
-
 <template>
   <div class="dashboard">
-    <div
-      class="block"
-    >
+    <div class="block">
       <h1>Passwords:</h1>
       <div
         v-for="password in passwords"
@@ -16,10 +13,11 @@
 </template>
 
 <script lang="ts">
-import PasswordLine from '@/components/PasswordLine.vue'
+import { defineComponent } from 'vue';
+import PasswordLine from '../components/PasswordLine.vue'
 
-export default {
-  name: "Dashboard",
+export default defineComponent({
+  name: 'Dashboard',
   components: {
     PasswordLine,
   },
@@ -27,21 +25,21 @@ export default {
     return {
       passwords: [
         {
-          url: "https://bla.com/",
-          name: "Google",
-          username: "doodoking",
-          password: "12345678",
+          url: 'https://bla.com/',
+          name: 'Google',
+          username: 'doodoking',
+          password: '12345678',
         },
         {
-          url: "https://bla2.com/",
-          name: "Netflix",
-          username: "nlxdodge@gmail.com",
-          password: "password2",
+          url: 'https://bla2.com/',
+          name: 'Netflix',
+          username: 'nlxdodge@gmail.com',
+          password: 'password2',
         },
       ],
-    };
+    }
   },
-};
+})
 </script>
 
 <style lang="scss">
@@ -49,11 +47,11 @@ export default {
   display: grid;
   grid-template-columns: 10% 80% 10%;
 
-  @include media(">tablet", "<desktop") {
+  @include media('>tablet', '<desktop') {
     grid-template-columns: 20% 60% 20%;
   }
 
-  @include media(">desktop") {
+  @include media('>desktop') {
     grid-template-columns: 35% 30% 35%;
   }
 

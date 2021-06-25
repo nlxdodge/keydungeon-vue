@@ -10,9 +10,10 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue'
 import mixins from "../mixins";
 
-export default {
+export default defineComponent({
   name: "InputLine",
   mixins: [mixins],
   props: {
@@ -26,7 +27,7 @@ export default {
       default: "text",
     },
   },
-};
+})
 </script>
 
 <style lang="scss">
