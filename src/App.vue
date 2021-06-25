@@ -9,7 +9,7 @@
           src="./assets/images/key_small.svg"
           alt="Logo"
         >
-        <router-link to="/dashboard">
+        <router-link to="/passwords">
           Passwords
         </router-link>
         <router-link to="/user">

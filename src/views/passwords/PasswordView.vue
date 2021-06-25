@@ -1,7 +1,13 @@
 <template>
-  <div class="dashboard">
+  <div class="passwords">
     <div class="block">
-      <h1>Passwords:</h1>
+      <div class="flex">
+        <p>You currently have {{ passwords.length }} accounts</p>
+        <Button
+          @click="$router.push('/passwords/add')"
+          text="Add"
+        />
+      </div>
       <div
         v-for="password in passwords"
         :key="password.name"
@@ -14,12 +20,14 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import PasswordLine from '../components/PasswordLine.vue'
+import PasswordLine from '../../components/PasswordLine.vue'
+import Button from '../../components/Button.vue'
 
 export default defineComponent({
-  name: 'Dashboard',
+  name: 'Passwords',
   components: {
     PasswordLine,
+    Button,
   },
   data() {
     return {
@@ -43,7 +51,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.dashboard {
+.passwords {
+  .flex {
+    display: flex;
+  }
+
   display: grid;
   grid-template-columns: 10% 80% 10%;
 

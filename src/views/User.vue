@@ -4,7 +4,10 @@
       <h1>User:</h1>
       <form @submit.prevent="submit()">
         <InputLine name="email" />
-        <InputLine name="password" />
+        <InputLine
+          name="password"
+          type="password"
+        />
         <Button
           @submit.prevent="submit()"
           text="Save"

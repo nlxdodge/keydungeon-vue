@@ -13,9 +13,14 @@ const routes = [
     component: () => import('../views/SignUp.vue')
   },
   {
-    path: '/dashboard',
-    name: 'Dashboard',
-    component: () => import('../views/Dashboard.vue')
+    path: '/passwords',
+    name: 'Passwords',
+    component: () => import('../views/passwords/PasswordView.vue')
+  },
+  {
+    path: '/passwords/add',
+    name: 'Add Password',
+    component: () => import('../views/passwords/PasswordMutate.vue')
   },
   {
     path: '/user',
@@ -24,8 +29,8 @@ const routes = [
   },
   {
     path: "/:catchAll(.*)",
-    name: '404',
-    component: () => import('../views/404.vue')
+    name: 'Error',
+    component: () => import('../views/Error.vue')
   }
 ]
 

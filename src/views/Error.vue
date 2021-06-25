@@ -1,5 +1,5 @@
 <template>
-  <div class="404">
+  <div class="error">
     <h1>This page does not exist</h1>
   </div>
 </template>
@@ -8,7 +8,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "404",
+  name: "Error",
 })
 </script>
 
