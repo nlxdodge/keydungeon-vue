@@ -13,8 +13,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import Button from './Button.vue'
+import { defineComponent } from 'vue';
+import Button from './Button.vue';
 
 export default defineComponent({
   name: 'PasswordLine',
@@ -37,12 +37,16 @@ export default defineComponent({
 
 <style lang="scss">
 .password-line {
-  margin-top: 20px;
   padding: 10px;
-  border: 1px solid black;
-  
+  border: 1px dashed black;
+
+  .button {
+    width: 100%;
+  }
+
   p {
-    margin: 10px 0;
+    margin: 0 0 10px 0;
+    word-wrap: break-word;
   }
 }
 </style>
