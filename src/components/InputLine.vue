@@ -1,36 +1,29 @@
 <template>
   <div class="input-line">
-    <label :for="'label-' + name">{{ capitalize(name) }}:</label>
+    <label :for="'label-' + props.name">{{ capitalize(props.name) }}:</label>
     <input
-      :id="'label-' + name"
-      :name="name"
-      :type="type"
-      :v-model="vModel"
-    >
+      :id="'label-' + props.name"
+      :name="props.name"
+      :type="props.type"
+      :v-model="props.vModel"
+    />
   </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
-import mixins from "../mixins"
-
-export default defineComponent({
-  name: "InputLine",
-  mixins: [mixins],
-  props: {
-    name: {
-      type: String,
-      default: "",
-      required: true,
-    },
-    type: {
-      type: String,
-      default: "text",
-    },
-    vModel: {
-      type: String,
-      default: ''
-    }
+<script setup lang="ts">
+const props = defineProps({
+  name: {
+    type: String,
+    default: '',
+    required: true
+  },
+  type: {
+    type: String,
+    default: ''
+  },
+  vModel: {
+    type: String,
+    default: ''
   }
 })
 </script>
@@ -42,11 +35,11 @@ export default defineComponent({
   display: grid;
   grid-template-columns: 100%;
 
-  @include media(">tablet", "<desktop") {
+  @include media('>tablet', '<desktop') {
     grid-template-columns: 33% 67%;
   }
 
-  @include media(">desktop") {
+  @include media('>desktop') {
     grid-template-columns: 40% 60%;
   }
 }

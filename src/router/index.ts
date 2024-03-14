@@ -27,12 +27,12 @@ const router = createRouter({
     {
       path: '/user',
       name: 'Your user information',
-      component: () => import('../views/User.vue')
+      component: () => import('../views/UserView.vue')
     },
     {
       path: '/:catchAll(.*)',
       name: 'Error page not found',
-      component: () => import('../views/Error.vue')
+      component: () => import('../views/ErrorView.vue')
     }
   ]
 })

@@ -1,20 +1,23 @@
 <template>
-  <div class="button">
-    {{ text }}
+  <div v-if="!props.href" class="button">
+    {{ props.text }}
   </div>
+  <a v-if="props.href" :href="props.href" class="button">
+    {{ props.text }}
+  </a>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'Button',
-  props: {
-    text: {
-      type: String,
-      default: 'Click',
-      required: true
-    }
+<script setup lang="ts">
+const props = defineProps({
+  text: {
+    type: String,
+    default: 'Click',
+    required: true
+  },
+  href: {
+    type: String,
+    default: '',
+    required: false
   }
 })
 </script>
@@ -36,7 +39,7 @@ export default defineComponent({
   -ms-user-select: none;
   user-select: none;
 
-  @include media("<tablet") {
+  @include media('<tablet') {
     width: 100%;
   }
 

@@ -2,36 +2,21 @@
   <div class="sign-up">
     <div class="block">
       <h1>Keydungeon</h1>
-      <img
-        src="../assets/images/key_logo_alt.svg"
-        alt="Keydungeon Alt Logo"
-      >
+      <img src="../assets/images/key_logo_alt.svg" alt="Keydungeon Alt Logo" />
       <form @submit.prevent="submit()">
         <div>
           <label for="email">Email: </label>
-          <input
-            type="text"
-            name="email"
-            v-model="email"
-            autofocus
-          >
+          <input type="text" name="email" v-model="email" autofocus />
         </div>
         <div>
           <label for="password">Password: </label>
-          <input
-            type="password"
-            name="password"
-            v-model="password"
-          >
+          <input type="password" name="password" v-model="password" />
         </div>
         <div class="actions">
           <a href="/">
             <Button text="Back" />
           </a>
-          <Button
-            @submit.prevent="submit()"
-            text="Sign Up"
-          />
+          <Button @submit.prevent="submit()" text="Sign Up" />
         </div>
       </form>
     </div>
@@ -43,15 +28,15 @@ import { defineComponent } from 'vue'
 import Button from '../components/Button.vue'
 
 export default defineComponent({
-  name: "SignUp", 
+  name: 'SignUp',
   components: {
-    Button,
+    Button
   },
   data() {
     return {
-      email: "",
-      password: "",
-    };
+      email: '',
+      password: ''
+    }
   },
   computed: {
     formValid() {
@@ -60,20 +45,20 @@ export default defineComponent({
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()\-=_+`~;:<>,.{}[\]|\\]).{8,}$/.test(
           this.password
         )
-      );
-    },
+      )
+    }
   },
   methods: {
     submit() {
       if (!this.formValid()) {
-        console.log("invalid");
-        return;
+        console.log('invalid')
+        return
       } else {
-        console.log("this is valid!");
+        console.log('this is valid!')
         // form is valid do sign-up call and save sign-up to localStorage/cookie
       }
-    },
-  },
+    }
+  }
 })
 </script>
 
@@ -102,8 +87,8 @@ export default defineComponent({
     label {
       display: block;
     }
-    input[type="text"],
-    input[type="password"] {
+    input[type='text'],
+    input[type='password'] {
       width: 100%;
       font-size: 22px;
       border: 1px solid #cbcbcb;
@@ -120,3 +105,4 @@ export default defineComponent({
   }
 }
 </style>
+../components/TheButton.vue

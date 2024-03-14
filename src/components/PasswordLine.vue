@@ -1,38 +1,23 @@
 <template>
   <div class="password-line">
-    <a :href="password.url">
-      <p>{{ password.name }}</p>
+    <a :href="props.password.url">
+      <p>{{ props.password.name }}</p>
     </a>
-    <p>{{ password.username }}</p>
-    <Button text="Edit" />
-    <Button
-      :data-clipboard-text="password.password"
-      text="Copy"
-    />
+    <p>{{ props.password.username }}</p>
+    <TheButton text="Edit" />
+    <TheButton :data-clipboard-text="props.password" text="Copy" />
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import Button from './Button.vue';
-
-export default defineComponent({
-  name: 'PasswordLine',
-  components: {
-    Button,
-  },
-  props: {
-    password: {
-      type: Object,
-      required: true,
-    },
-  },
-  methods: {
-    toClipboard() {
-      // copy it to the clipboard
-    },
-  },
-});
+<script setup lang="ts">
+import { TheButton } from '../components/TheButton.vue'
+import type { Password } from '../models/Password'
+const props = defineProps({
+  password: {
+    type: {} as Password,
+    required: true
+  }
+})
 </script>
 
 <style lang="scss">

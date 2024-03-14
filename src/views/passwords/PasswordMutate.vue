@@ -1,17 +1,11 @@
 <template>
   <div>
-    <h1>Mutate view</h1>
+    <h1>Edit password</h1>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
 
-export default defineComponent({
-    name: 'PasswordMutate'
-})
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>
