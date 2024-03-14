@@ -1,5 +1,5 @@
 export interface Password {
-    id: string,
+    id: number,
     name: string,
     url: string,
     username: string,

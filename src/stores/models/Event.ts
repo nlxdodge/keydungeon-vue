@@ -1,5 +1,5 @@
 export interface Event {
-    id: string,
+    id: number,
     eventType: string,
     metadata: string
 }
