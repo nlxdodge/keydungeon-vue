@@ -4,7 +4,7 @@
     :class="backgroundColorClass"
   >
     <header>
-      <nav v-if="userSignedIn">
+      <nav v-if="signedIn">
         <img
           src="./assets/images/key_small.svg"
           alt="Logo"
@@ -17,38 +17,20 @@
         </router-link>
         <div
           class="sign-off"
-          @click="signOff()"
+          @click="signedIn != signedIn"
         >
           Sign Off
         </div>
       </nav>
     </header>
-    <router-view />
+    <RouterView />
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'App',
-  data() {
-    return {
-      signedIn: true,
-      backgroundColorClass: 'dark',
-    };
-  },
-  computed: {
-    userSignedIn() {
-      return this.signedIn;
-    },
-  },
-  methods: {
-    signOff() {
-      console.log('signing out')
-    },
-  },
-})
+<script setup lang="ts">
+import { RouterLink, RouterView } from 'vue-router'
+let signedIn = true;
+let backgroundColorClass = 'dark';
 </script>
 
 <style lang="scss">
