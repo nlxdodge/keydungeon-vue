@@ -1,5 +1,5 @@
-import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
 import type { Password } from './models/Password'
 
 export const passwordStore = defineStore('passwords', () => {
@@ -18,5 +18,23 @@ export const passwordStore = defineStore('passwords', () => {
     tempPasswords.push(newPassword)
     passwords.value = tempPasswords
   }
-  return { passwords, get, getById, post, patch}
+
+  // TEST DATA
+  post([
+    {
+      id: 1,
+      url: 'https://google.com',
+      name: 'Google',
+      username: 'email',
+      password: 'password'
+    },
+    {
+      id: 2,
+      url: 'https://firefox.com',
+      name: 'Firefox',
+      username: 'email',
+      password: 'password'
+    }
+  ])
+  return { get, getById, post, patch }
 })

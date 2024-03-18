@@ -4,20 +4,28 @@
       <p>{{ props.password.name }}</p>
     </a>
     <p>{{ props.password.username }}</p>
-    <TheButton text="Edit" />
-    <TheButton :data-clipboard-text="props.password" text="Copy" />
+    <TheButton :href="'/passwords/edit/' + props.password.id" >Edit</TheButton>
+    <TheButton @click="copy(props.password.password)">Copy</TheButton>
   </div>
 </template>
 
 <script setup lang="ts">
-import { TheButton } from '../components/TheButton.vue'
-import type { Password } from '../models/Password'
-const props = defineProps({
-  password: {
-    type: {} as Password,
-    required: true
+import TheButton from '../components/TheButton.vue'
+import type { Password } from '../stores/models/Password'
+
+interface Props {
+  password: Password
+}
+const props = defineProps<Props>()
+
+async function copy(data: string) {
+  try {
+    await navigator.clipboard.writeText(data)
+    console.log('Copied message!')
+  } catch (error) {
+    console.log('Error message')
   }
-})
+}
 </script>
 
 <style lang="scss">

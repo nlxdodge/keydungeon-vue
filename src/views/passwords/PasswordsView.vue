@@ -1,12 +1,12 @@
 <template>
   <div class="passwords-view">
     <div class="filter">
-      <p>You currently have {{ passwords.length }} accounts</p>
-      <TheButton @click="$router.push('/passwords/add')" text="Add" />
-      <InputLine name="filter" :v-model="filter" />
+      <p>You currently have {{ shownPasswords.length }} accounts</p>
+      <TheButton href="/passwords/add">Add</TheButton>
+      <InputLine name="filter" :vModel="filter" v-focus />
     </div>
     <div class="passwords">
-      <div class="password" v-for="password in props.passwords" :key="password.name">
+      <div class="password" v-for="password in shownPasswords as Password[]" :key="password.name">
         <PasswordLine :password="password" />
       </div>
     </div>
@@ -14,17 +14,19 @@
 </template>
 
 <script setup lang="ts">
+import type { Password } from '@/stores/models/Password'
+import { passwordStore } from '@/stores/passwordsStore'
+import { computed, ref } from 'vue'
+import InputLine from '../../components/InputLine.vue'
 import PasswordLine from '../../components/PasswordLine.vue'
 import TheButton from '../../components/TheButton.vue'
-import InputLine from '../../components/InputLine.vue'
-import type { Password } from '@/stores/models/Password'
 
-const props = defineProps({
-  passwords: {
-    type: [] as Password[],
-    required: false
-  }
-})
+const store = passwordStore()
+
+let filter = ref('test')
+const shownPasswords = computed(() =>
+  store.get().filter((p: Password) => p.name == filter.value)
+)
 </script>
 
 <style lang="scss">

@@ -3,20 +3,12 @@
     <div class="block">
       <h1>Keydungeon</h1>
       <img src="../assets/images/key_logo_alt.svg" alt="Keydungeon Alt Logo" />
-      <form @submit.prevent="submit()">
-        <div>
-          <label for="username">Username: </label>
-          <input type="text" name="username" v-model="username" autofocus />
-        </div>
-        <div>
-          <label for="password">Password: </label>
-          <input type="password" name="password" v-model="password" />
-        </div>
+      <form @submit.prevent="submitForm()">
+        <InputLine name="username" :vModel="email" v-focus/>
+        <InputLine name="password" type="password" :vModel="password"/>
         <div class="actions">
-          <a href="/sign-up">
-            <TheButton text="Sign Up" />
-          </a>
-          <TheButton @submit.prevent="submit()" text="Sign In" />
+          <TheButton href="/sign-up">Sign Up</TheButton>
+          <TheButton @submit.prevent="submitForm()">Sign In</TheButton>
         </div>
       </form>
     </div>
@@ -24,42 +16,22 @@
 </template>
 
 <script setup lang="ts">
+import InputLine from '@/components/InputLine.vue';
+import { ref } from 'vue';
+import TheButton from '../components/TheButton.vue';
 
-import TheButton from '../components/TheButton.vue'
+const email = ref('')
+const password = ref('')
 
-export default defineComponent({
-  name: 'SignIn',
-  components: {
-    Button
-  },
-  data() {
-    return {
-      username: '',
-      password: ''
-    }
-  },
-  computed: {
-    formValid() {
-      return (
-        this.username.length > 8 &&
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()\-=_+`~;:<>,.{}[\]|\\]).{8,}$/.test(
-          this.password
-        )
-      )
-    }
-  },
-  methods: {
-    submit() {
-      if (!this.formValid()) {
-        console.log('invalid')
-        return
-      } else {
-        console.log('this is valid!')
-        // form is valid do sign-in call and save sign-in to localStorage/cookie
-      }
-    }
-  }
-})
+function submitForm() {
+  // TODO SET JWT TOKEN
+  return (
+    email.value.length > 8 &&
+    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()\-=_+`~;:<>,.{}[\]|\\]).{8,}$/.test(
+      password.value
+    )
+  )
+}
 </script>
 
 <style lang="scss">

@@ -17,11 +17,16 @@ const router = createRouter({
     {
       path: '/passwords',
       name: 'All your Passwords',
-      component: () => import('../views/passwords/PasswordView.vue')
+      component: () => import('../views/passwords/PasswordsView.vue')
     },
     {
       path: '/passwords/add',
       name: 'Add a new Password',
+      component: () => import('../views/passwords/PasswordMutate.vue')
+    },
+    {
+      path: '/passwords/edit/:id',
+      name: 'Edit a Password',
       component: () => import('../views/passwords/PasswordMutate.vue')
     },
     {

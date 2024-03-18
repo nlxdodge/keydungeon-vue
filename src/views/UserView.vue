@@ -2,10 +2,10 @@
   <div class="user-view">
     <div class="block">
       <h1>User:</h1>
-      <form @submit.prevent="submit()">
-        <InputLine name="props.user.email" />
-        <InputLine name="password" type="password" />
-        <TheButton @click.prevent="submit()" text="Save" />
+      <form @submit.prevent="submitForm()">
+        <InputLine name="email" :vModel="userRef.email" v-focus />
+        <InputLine name="password" type="password" :vModel="userRef.password" />
+        <TheButton>Save</TheButton>
       </form>
       <table>
         <caption>
@@ -27,31 +27,22 @@
 </template>
 
 <script setup lang="ts">
-import TheButton from '../components/TheButton.vue'
-import InputLine from '../components/InputLine.vue'
-import type { User } from '../stores/models/User'
+import { ref } from 'vue';
+import InputLine from '../components/InputLine.vue';
+import TheButton from '../components/TheButton.vue';
+import type { User } from '../stores/models/User';
 
-const props = defineProps({
-  user: {
-    type: {} as User,
-    required: true
-  }
-})
-
-function formValid(): bool {
-  return (
-    props.value.user.username.length > 0 &&
-    /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,}$/.test(props.value.user.password)
-  )
+interface Props {
+  user: User
 }
+const props = defineProps<Props>()
+const userRef = ref(props.user)
 
-function submit() {
-  if (!formValid()) {
-    console.log('invalid')
-    return
-  } else {
-    console.log('this is valid!')
-  }
+function submitForm(): boolean {
+  return (
+    userRef.value.email.length > 0 &&
+    /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,}$/.test(userRef.value.password)
+  )
 }
 </script>
 

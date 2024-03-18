@@ -3,63 +3,27 @@
     <div class="block">
       <h1>Keydungeon</h1>
       <img src="../assets/images/key_logo_alt.svg" alt="Keydungeon Alt Logo" />
-      <form @submit.prevent="submit()">
-        <div>
-          <label for="email">Email: </label>
-          <input type="text" name="email" v-model="email" autofocus />
-        </div>
-        <div>
-          <label for="password">Password: </label>
-          <input type="password" name="password" v-model="password" />
-        </div>
+      <form @submit.prevent="submitForm()">
+        <InputLine name="email" :vModel="email" v-focus />        
+        <InputLine name="password" type="password" :vModel="password" />
         <div class="actions">
-          <a href="/">
-            <Button text="Back" />
-          </a>
-          <Button @submit.prevent="submit()" text="Sign Up" />
+          <TheButton href="/">Back</TheButton>
+          <TheButton @submit.prevent="submitForm()">Sign Up</TheButton>
         </div>
       </form>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import Button from '../components/Button.vue'
+<script setup lang="ts">
+import InputLine from '@/components/InputLine.vue';
+import { ref } from 'vue';
+import TheButton from '../components/TheButton.vue';
 
-export default defineComponent({
-  name: 'SignUp',
-  components: {
-    Button
-  },
-  data() {
-    return {
-      email: '',
-      password: ''
-    }
-  },
-  computed: {
-    formValid() {
-      return (
-        this.email.length > 8 &&
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()\-=_+`~;:<>,.{}[\]|\\]).{8,}$/.test(
-          this.password
-        )
-      )
-    }
-  },
-  methods: {
-    submit() {
-      if (!this.formValid()) {
-        console.log('invalid')
-        return
-      } else {
-        console.log('this is valid!')
-        // form is valid do sign-up call and save sign-up to localStorage/cookie
-      }
-    }
-  }
-})
+const email = ref('')
+const password = ref('')
+
+function submitForm() {}
 </script>
 
 <style lang="scss">
@@ -105,4 +69,4 @@ export default defineComponent({
   }
 }
 </style>
-../components/TheButton.vue
+../components/TheButton.vue, ref

@@ -11,20 +11,18 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  name: {
-    type: String,
-    default: '',
-    required: true
-  },
-  type: {
-    type: String,
-    default: ''
-  },
-  vModel: {
-    type: String,
-    default: ''
-  }
+import { capitalize } from '@/mixins';
+
+interface Props {
+  name: string
+  type?: string
+  vModel: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  name: "",
+  type: "text",
+  vModel: ""
 })
 </script>
 

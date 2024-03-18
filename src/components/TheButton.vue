@@ -1,51 +1,51 @@
 <template>
-  <div v-if="!props.href" class="button">
-    {{ props.text }}
+  <div class="button-click-box">
+    <div v-if="props.href == ''" class="button">
+      <slot />
+    </div>
+    <a v-if="props.href != ''" :href="props.href" class="button">
+      <slot />
+    </a>
   </div>
-  <a v-if="props.href" :href="props.href" class="button">
-    {{ props.text }}
-  </a>
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  text: {
-    type: String,
-    default: 'Click',
-    required: true
-  },
-  href: {
-    type: String,
-    default: '',
-    required: false
-  }
-})
+interface Props {
+  href?: string
+}
+
+const props = defineProps<Props>()
 </script>
 
 <style lang="scss">
-.button {
-  background-color: #242424;
-  text-decoration: none;
-  color: #f2f2f2;
-  border: none;
-  padding: 6px 0;
-  width: 124px;
-  text-align: center;
-  margin-top: 10px;
+.button-click-box {
+  display: inline-block;
 
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  .button {
+    display: inline-block;
+    background-color: #242424;
+    text-decoration: none;
+    color: #f2f2f2;
+    border: none;
+    padding: 12px 0;
+    width: 124px;
+    text-align: center;
+    margin-top: 10px;
 
-  @include media('<tablet') {
-    width: 100%;
-  }
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 
-  &:hover {
-    cursor: pointer;
-    background-color: #f1c40f;
+    @include media('<tablet') {
+      width: 100%;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: #f1c40f;
+    }
   }
 }
 </style>
