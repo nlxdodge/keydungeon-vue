@@ -1,25 +1,24 @@
 <template>
-  <div class="button-click-box">
-    <div v-if="props.href == ''" class="button">
+  <button class="button-click-box">
+    <div v-if="props.href == undefined" class="button">
       <slot />
     </div>
-    <a v-if="props.href != ''" :href="props.href" class="button">
+    <a v-if="props.href != undefined" :href="props.href" class="button">
       <slot />
     </a>
-  </div>
+  </button>
 </template>
 
 <script setup lang="ts">
 interface Props {
   href?: string
 }
-
 const props = defineProps<Props>()
 </script>
 
 <style lang="scss">
 .button-click-box {
-  display: inline-block;
+  display: contents;
 
   .button {
     display: inline-block;

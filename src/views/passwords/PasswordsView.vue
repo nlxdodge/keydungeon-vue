@@ -23,10 +23,13 @@ import TheButton from '../../components/TheButton.vue'
 
 const store = passwordStore()
 
-let filter = ref('test')
-const shownPasswords = computed(() =>
-  store.get().filter((p: Password) => p.name == filter.value)
-)
+const filter = ref('test')
+const shownPasswords = computed(() => {
+  if (filter.value != null && filter.value != '') {
+    return store.get().filter((p: Password) => p.name == filter.value)
+  }
+  return store.get()
+})
 </script>
 
 <style lang="scss">

@@ -1,5 +1,7 @@
+import type { EventType } from "./EventType";
+
 export interface Event {
-    id: number,
-    eventType: string,
+    id: string,
+    eventType: EventType,
     metadata: string
 }

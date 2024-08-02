@@ -1,3 +1,4 @@
+userStoreImport
 <template>
   <div class="user-view">
     <div class="block">
@@ -12,14 +13,14 @@
           Past sign-ins:
         </caption>
         <tr>
-          <td>1</td>
-          <td>83.83.243.38</td>
-          <td>09:24:00 at 21-04-2021</td>
+          <th>Type</th>
+          <th>IP Address</th>
+          <th>Date</th>
         </tr>
-        <tr>
-          <td>2</td>
-          <td>83.83.243.39</td>
-          <td>09:24:20 at 21-04-2021</td>
+        <tr v-for="event in events.get().slice(0, 10)" :key="event.id">
+          <td>{{ toUpperCaseFirst(EventType[event.eventType]) }}</td>
+          <td>{{ JSON.parse(event.metadata).ip_address }}</td>
+          <td>{{ JSON.parse(event.metadata).date }}</td>
         </tr>
       </table>
     </div>
@@ -27,22 +28,35 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import InputLine from '../components/InputLine.vue';
-import TheButton from '../components/TheButton.vue';
-import type { User } from '../stores/models/User';
+import { ref } from 'vue'
+import InputLine from '../components/InputLine.vue'
+import TheButton from '../components/TheButton.vue'
+import type { User } from '../stores/models/User'
+import type { Event } from '../stores/models/Event'
+import { EventType } from '../stores/models/EventType'
+import { userStore } from '@/stores/userStore'
+import { eventStore } from '@/stores/eventsStore'
 
-interface Props {
-  user: User
+const user = userStore()
+const events = eventStore()
+
+const userRef = ref({} as User)
+const eventsRef = ref([] as Event[])
+if (user != null) {
+  userRef.value = user.get()
 }
-const props = defineProps<Props>()
-const userRef = ref(props.user)
+if (events != null) {
+  eventsRef.value = events.get()
+}
 
-function submitForm(): boolean {
-  return (
+function submitForm() {
+  console.log('saving user details')
+  const valid =
     userRef.value.email.length > 0 &&
     /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,}$/.test(userRef.value.password)
-  )
+  if (valid) {
+    // send data to backend
+  }
 }
 </script>
 

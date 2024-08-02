@@ -1,29 +1,22 @@
 <template>
   <div class="input-line">
-    <label :for="'label-' + props.name">{{ capitalize(props.name) }}:</label>
-    <input
-      :id="'label-' + props.name"
-      :name="props.name"
-      :type="props.type"
-      :v-model="props.vModel"
-    />
+    <label :for="'label-' + props.name">{{ toUpperCaseFirst(props.name) }}:</label>
+    <input :id="'label-' + props.name" :name="props.name" :type="props.type" v-model="model" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { capitalize } from '@/mixins';
-
 interface Props {
   name: string
   type?: string
-  vModel: string
 }
 
+const model = defineModel()
 const props = withDefaults(defineProps<Props>(), {
-  name: "",
-  type: "text",
-  vModel: ""
+  name: '',
+  type: 'text'
 })
+console.log("model", model.value)
 </script>
 
 <style lang="scss">

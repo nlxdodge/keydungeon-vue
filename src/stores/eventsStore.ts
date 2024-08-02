@@ -1,10 +1,11 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { Event } from './models/Event'
+import { EventType } from './models/EventType'
 
-export const passwordStore = defineStore('events', () => {
+export const eventStore = defineStore('events', () => {
   const events = ref([] as Event[])
-  function getById(id: number) {
+  function getById(id: string) {
     return events.value.find((p: Event) => p.id == id)
   }
   function get() {
@@ -18,5 +19,19 @@ export const passwordStore = defineStore('events', () => {
     tempEvents.push(newEvents)
     events.value = tempEvents
   }
+
+  post([
+    {
+      id: "1",
+      eventType: EventType.login,
+      metadata: '{"ip_address":"123.123.123.123", "date":"today"}'
+    },
+    {
+      id: "2",
+      eventType: EventType.login_attempt,
+      metadata: '{"ip_address":"123.123.123.124", "date":"today"}'
+    }
+  ])
+
   return { events, get, getById, post, patch }
 })

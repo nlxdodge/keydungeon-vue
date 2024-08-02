@@ -4,7 +4,7 @@ import type { Password } from './models/Password'
 
 export const passwordStore = defineStore('passwords', () => {
   const passwords = ref([] as Password[])
-  function getById(id: number) {
+  function getById(id: string) {
     return passwords.value.find((p: Password) => p.id == id)
   }
   function get() {
@@ -22,14 +22,14 @@ export const passwordStore = defineStore('passwords', () => {
   // TEST DATA
   post([
     {
-      id: 1,
+      id: '725fb528-e6ec-421d-8461-6bf1081cd1f9',
       url: 'https://google.com',
       name: 'Google',
       username: 'email',
       password: 'password'
     },
     {
-      id: 2,
+      id: '2a3a1c52-5c22-4c1b-ac11-293682fc7852',
       url: 'https://firefox.com',
       name: 'Firefox',
       username: 'email',

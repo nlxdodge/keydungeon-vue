@@ -4,8 +4,8 @@
       <h1>Keydungeon</h1>
       <img src="../assets/images/key_logo_alt.svg" alt="Keydungeon Alt Logo" />
       <form @submit.prevent="submitForm()">
-        <InputLine name="username" :vModel="email" v-focus/>
-        <InputLine name="password" type="password" :vModel="password"/>
+        <InputLine name="username" :v-model="email" v-focus/>
+        <InputLine name="password" type="password" :v-model="password"/>
         <div class="actions">
           <TheButton href="/sign-up">Sign Up</TheButton>
           <TheButton @submit.prevent="submitForm()">Sign In</TheButton>
@@ -68,11 +68,11 @@ function submitForm() {
     .actions {
       display: flex;
       justify-content: center;
+      margin: 25px auto 0 auto;
       a {
         margin-right: 5px;
         text-decoration: none;
       }
-      margin: 25px auto 0 auto;
     }
   }
 }

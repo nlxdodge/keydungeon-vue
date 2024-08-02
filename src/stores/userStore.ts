@@ -2,7 +2,9 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { User } from './models/User'
 
-export const passwordStore = defineStore('user', () => {
+
+
+export const userStore = defineStore('user', () => {
   const user = ref({} as User)
   function get() {
     return user.value
@@ -13,5 +15,14 @@ export const passwordStore = defineStore('user', () => {
   function patch(newUser: User) {
     user.value = newUser
   }
-  return { user, get, post, patch}
+
+  // TEST DATA
+  post(
+    {
+      id: 'ab28b491-e717-42c0-b370-a0edf057e4f2',
+      email: 'nlxdodge@gmail.com',
+      password: 'SomePassword1234!'
+    }
+  )
+  return { user, get, post, patch }
 })
