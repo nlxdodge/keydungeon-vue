@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install latest pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
       - name: Install latest LTS Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 'lts/*'
           cache: 'pnpm'
@@ -23,11 +23,11 @@ jobs:
       - name: Generate production build
         run: pnpm run build
       - name: Deploy files to production environment
-        uses: sebastianpopp/ftp-action@releases/v2
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
-          host: ${{ secrets.FTP_DOMAIN }}
-          user: ${{ secrets.FTP_USERNAME }}
+          server: ${{ secrets.FTP_DOMAIN }}
+          username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          localDir: './dist'
-          remoteDir: './key'
-          options: '--parallel=4 --only-newer'
+          local-dir: './dist/'
+          server-dir: '/key/'
+          log-level: 'standard'
