@@ -3,12 +3,20 @@
     <div class="block">
       <h1>Keydungeon</h1>
       <img src="../assets/images/key_logo_alt.svg" alt="Keydungeon Alt Logo" />
-      <form @submit.prevent="submitForm()">
-        <InputLine name="email" :vModel="email" v-focus />        
-        <InputLine name="password" type="password" :vModel="password" />
+      <form @submit.prevent="submitForm">
+        <InputLine name="username" v-model="username" autocomplete="username" v-focus />
+        <InputLine
+          name="password"
+          type="password"
+          v-model="password"
+          autocomplete="new-password"
+        />
+        <p v-if="auth.error" class="error">{{ auth.error }}</p>
         <div class="actions">
           <TheButton href="/">Back</TheButton>
-          <TheButton @submit.prevent="submitForm()">Sign Up</TheButton>
+          <TheButton type="submit" :disabled="auth.loading">
+            {{ auth.loading ? 'Signing up…' : 'Sign up' }}
+          </TheButton>
         </div>
       </form>
     </div>
@@ -16,14 +24,28 @@
 </template>
 
 <script setup lang="ts">
-import InputLine from '@/components/InputLine.vue';
-import { ref } from 'vue';
-import TheButton from '../components/TheButton.vue';
+import InputLine from '@/components/InputLine.vue'
+import TheButton from '@/components/TheButton.vue'
+import { useAuthStore } from '@/stores/authStore'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-const email = ref('')
+const auth = useAuthStore()
+const router = useRouter()
+
+const username = ref('')
 const password = ref('')
 
-function submitForm() {}
+async function submitForm() {
+  if (!username.value || !password.value) return
+
+  try {
+    await auth.register(username.value, password.value)
+    await router.push('/passwords')
+  } catch {
+    // The error is exposed through the auth store.
+  }
+}
 </script>
 
 <style lang="scss">
@@ -33,6 +55,7 @@ function submitForm() {}
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  background-color: $template-color-dark;
   .block {
     max-width: 300px;
     padding: 25px 25px 25px 25px;
@@ -51,11 +74,19 @@ function submitForm() {}
     label {
       display: block;
     }
+    .input-line {
+      grid-template-columns: 100%;
+    }
     input[type='text'],
     input[type='password'] {
       width: 100%;
       font-size: 22px;
       border: 1px solid #cbcbcb;
+    }
+    .error {
+      color: #c0392b;
+      font-size: 18px;
+      margin: 10px 0 0 0;
     }
     .actions {
       display: flex;
@@ -69,4 +100,3 @@ function submitForm() {}
   }
 }
 </style>
-../components/TheButton.vue, ref

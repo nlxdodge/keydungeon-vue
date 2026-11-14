@@ -2,24 +2,22 @@ import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import { NodePackageImporter } from 'sass'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-  ],
+  plugins: [vue()],
   css: {
     preprocessorOptions: {
       scss: {
+        importers: [new NodePackageImporter()],
+        silenceDeprecations: ['import', 'if-function'],
         additionalData: `
-          @import "@/assets/scss/defaults.scss";
           @import "@/assets/scss/settings.scss";
-          @import 'node_modules/normalize-scss/sass/normalize.scss';
-          @include normalize();
-          @import 'node_modules/include-media/dist/_include-media.scss';
-        `,
-      },
-    },
+          @import "include-media/dist/include-media";
+        `
+      }
+    }
   },
   resolve: {
     alias: {

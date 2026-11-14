@@ -1,30 +1,20 @@
 <template>
-  <div class="notification-modal">
-    <div @click="close()" v-if="show">
-      {{ props.message }}
+  <Teleport to="body">
+    <div
+      v-if="notification.visible"
+      class="popup"
+      :class="`popup--${notification.type}`"
+      @click="notification.hide()"
+    >
+      {{ notification.message }}
     </div>
-  </div>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref } from 'vue'
+import { useNotificationStore } from '@/stores/notificationStore'
 
-interface Props {
-  message: string
-}
-const props = withDefaults(defineProps<Props>(), {
-  message: 'Error'
-})
-
-let show = ref(false)
-
-function close() {
-  show.value = false
-}
-
-setTimeout(() => {
-  close()
-}, 3000)
+const notification = useNotificationStore()
 </script>
 
 <style lang="scss">
@@ -32,9 +22,11 @@ setTimeout(() => {
   position: fixed;
   right: 25px;
   bottom: 25px;
-  background-color: #f1c40f;
-  color: #242424;
+  background-color: $template-color-main;
+  color: $template-color-dark;
   padding: 10px 50px;
+  font-family: AlegreyaSans, Helvetica, Arial, sans-serif;
   font-size: 20px;
+  cursor: pointer;
 }
 </style>

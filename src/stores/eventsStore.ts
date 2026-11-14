@@ -1,37 +1,45 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { Event } from './models/Event'
-import { EventType } from './models/EventType'
+import { apiRequest } from '@/api/client'
+import type { PaginatedEvents } from '@/api/types'
+import type { Event } from '@/stores/models/Event'
 
-export const eventStore = defineStore('events', () => {
-  const events = ref([] as Event[])
-  function getById(id: string) {
-    return events.value.find((p: Event) => p.id == id)
-  }
-  function get() {
-    return events.value
-  }
-  function post(newEvents: Event[]) {
-    events.value = newEvents
-  }
-  function patch(newEvents: Event) {
-    const tempEvents = events.value.filter((p: Event) => p.id != newEvents.id)
-    tempEvents.push(newEvents)
-    events.value = tempEvents
-  }
+const PAGE_SIZE = 10
 
-  post([
-    {
-      id: "1",
-      eventType: EventType.login,
-      metadata: '{"ip_address":"123.123.123.123", "date":"today"}'
-    },
-    {
-      id: "2",
-      eventType: EventType.login_attempt,
-      metadata: '{"ip_address":"123.123.123.124", "date":"today"}'
+function toMessage(error: unknown) {
+  return error instanceof Error ? error.message : 'Something went wrong'
+}
+
+export const useEventStore = defineStore('events', () => {
+  const events = ref<Event[]>([])
+  const page = ref(1)
+  const limit = ref(PAGE_SIZE)
+  const total = ref(0)
+  const loading = ref(false)
+  const error = ref<string | null>(null)
+
+  async function fetchEvents(options: { page?: number; limit?: number } = {}) {
+    if (options.page !== undefined) page.value = options.page
+    if (options.limit !== undefined) limit.value = options.limit
+
+    loading.value = true
+    error.value = null
+
+    try {
+      const response = await apiRequest<PaginatedEvents>('/events', {
+        query: { page: page.value, limit: limit.value }
+      })
+      events.value = response.data
+      page.value = response.page
+      limit.value = response.limit
+      total.value = response.total
+    } catch (caught) {
+      error.value = toMessage(caught)
+      throw caught
+    } finally {
+      loading.value = false
     }
-  ])
+  }
 
-  return { events, get, getById, post, patch }
+  return { events, page, limit, total, loading, error, fetchEvents }
 })

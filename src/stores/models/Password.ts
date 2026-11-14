@@ -1,7 +1,10 @@
 export interface Password {
-    id: string,
-    name: string,
-    url: string,
-    username: string,
-    password: string
+  uuid: string
+  user_uuid: string
+  icon: string
+  url: string
+  name: string
+  username: string
+  password: string
+  timestamp: string
 }

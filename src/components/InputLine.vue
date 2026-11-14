@@ -1,22 +1,31 @@
 <template>
   <div class="input-line">
     <label :for="'label-' + props.name">{{ toUpperCaseFirst(props.name) }}:</label>
-    <input :id="'label-' + props.name" :name="props.name" :type="props.type" v-model="model" />
+    <input
+      :id="'label-' + props.name"
+      :name="props.name"
+      :type="props.type"
+      :autocomplete="props.autocomplete"
+      v-model="model"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+import { toUpperCaseFirst } from '@/mixins'
+
 interface Props {
   name: string
   type?: string
+  autocomplete?: string
 }
 
-const model = defineModel()
+const model = defineModel<string>()
 const props = withDefaults(defineProps<Props>(), {
   name: '',
-  type: 'text'
+  type: 'text',
+  autocomplete: 'off'
 })
-console.log("model", model.value)
 </script>
 
 <style lang="scss">

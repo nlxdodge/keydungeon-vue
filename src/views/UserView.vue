@@ -1,62 +1,147 @@
-userStoreImport
 <template>
   <div class="user-view">
     <div class="block">
-      <h1>User:</h1>
-      <form @submit.prevent="submitForm()">
-        <InputLine name="email" :vModel="userRef.email" v-focus />
-        <InputLine name="password" type="password" :vModel="userRef.password" />
-        <TheButton>Save</TheButton>
+      <p v-if="loadError" class="error">{{ loadError }}</p>
+      <form @submit.prevent="submitForm">
+        <InputLine name="username" v-model="username" autocomplete="username" v-focus />
+        <InputLine name="password" type="password" v-model="password" autocomplete="new-password" />
+        <p class="hint">Leave the password empty to keep your current one.</p>
+        <TheButton type="submit" :disabled="saving">
+          {{ saving ? 'Saving…' : 'Save' }}
+        </TheButton>
       </form>
+      <p v-if="events.error" class="error">{{ events.error }}</p>
       <table>
         <caption>
-          Past sign-ins:
+          Past events:
         </caption>
-        <tr>
-          <th>Type</th>
-          <th>IP Address</th>
-          <th>Date</th>
-        </tr>
-        <tr v-for="event in events.get().slice(0, 10)" :key="event.id">
-          <td>{{ toUpperCaseFirst(EventType[event.eventType]) }}</td>
-          <td>{{ JSON.parse(event.metadata).ip_address }}</td>
-          <td>{{ JSON.parse(event.metadata).date }}</td>
-        </tr>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Details</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="event in events.events" :key="event.uuid">
+            <td>{{ formatEventType(event.event_type) }}</td>
+            <td>{{ event.metadata }}</td>
+            <td>{{ formatDate(event.timestamp) }}</td>
+          </tr>
+          <tr v-if="events.events.length === 0">
+            <td colspan="3">No events found.</td>
+          </tr>
+        </tbody>
       </table>
+      <div v-if="eventTotalPages > 1" class="pagination">
+        <span class="pagination__label pagination__label--wide">
+          {{ events.page }} | {{ eventTotalPages }}
+        </span>
+        <span class="pagination__label pagination__label--narrow">
+          {{ events.page }} | {{ eventTotalPages }}
+        </span>
+        <TheButton
+          type="button"
+          :disabled="events.page <= 1"
+          @click="changeEventPage(events.page - 1)"
+        >
+          Previous
+        </TheButton>
+        <TheButton
+          type="button"
+          :disabled="events.page >= eventTotalPages"
+          @click="changeEventPage(events.page + 1)"
+        >
+          Next
+        </TheButton>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import InputLine from '../components/InputLine.vue'
 import TheButton from '../components/TheButton.vue'
-import type { User } from '../stores/models/User'
-import type { Event } from '../stores/models/Event'
-import { EventType } from '../stores/models/EventType'
-import { userStore } from '@/stores/userStore'
-import { eventStore } from '@/stores/eventsStore'
+import type { UpdateUserRequest } from '@/api/types'
+import { useAuthStore } from '@/stores/authStore'
+import { useEventStore } from '@/stores/eventsStore'
+import { useNotificationStore } from '@/stores/notificationStore'
 
-const user = userStore()
-const events = eventStore()
+const auth = useAuthStore()
+const events = useEventStore()
+const notifications = useNotificationStore()
 
-const userRef = ref({} as User)
-const eventsRef = ref([] as Event[])
-if (user != null) {
-  userRef.value = user.get()
-}
-if (events != null) {
-  eventsRef.value = events.get()
-}
+const username = ref(auth.user?.username ?? '')
+const password = ref('')
+const saving = ref(false)
+const loadError = ref<string | null>(null)
 
-function submitForm() {
-  console.log('saving user details')
-  const valid =
-    userRef.value.email.length > 0 &&
-    /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,}$/.test(userRef.value.password)
-  if (valid) {
-    // send data to backend
+const eventTotalPages = computed(() => Math.max(1, Math.ceil(events.total / events.limit)))
+
+onMounted(async () => {
+  try {
+    if (!auth.user) {
+      await auth.fetchUser()
+    }
+    if (auth.user) {
+      username.value = auth.user.username
+    }
+  } catch (error) {
+    loadError.value = error instanceof Error ? error.message : 'Could not load your user.'
   }
+
+  events.fetchEvents({ page: 1, limit: 5 }).catch(() => null)
+})
+
+async function submitForm() {
+  const payload: UpdateUserRequest = {}
+  const trimmedUsername = username.value.trim()
+
+  if (trimmedUsername && trimmedUsername !== auth.user?.username) {
+    payload.username = trimmedUsername
+  }
+
+  if (password.value) {
+    if (password.value.length < 8) {
+      notifications.show('Password must be at least 8 characters.', 'error')
+      return
+    }
+    payload.password = password.value
+  }
+
+  if (!payload.username && !payload.password) {
+    notifications.show('Nothing to update.', 'info')
+    return
+  }
+
+  saving.value = true
+  try {
+    const updated = await auth.updateUser(payload)
+    username.value = updated.username
+    password.value = ''
+    notifications.show('User updated.', 'success')
+  } catch (error) {
+    notifications.show(
+      error instanceof Error ? error.message : 'Could not update your user.',
+      'error'
+    )
+  } finally {
+    saving.value = false
+  }
+}
+
+function changeEventPage(page: number) {
+  events.fetchEvents({ page }).catch(() => null)
+}
+
+function formatEventType(type: string) {
+  return type.replace(/([a-z])([A-Z])/g, '$1 $2')
+}
+
+function formatDate(timestamp: string) {
+  const date = new Date(timestamp)
+  return Number.isNaN(date.getTime()) ? timestamp : date.toLocaleString()
 }
 </script>
 
@@ -74,14 +159,75 @@ function submitForm() {
   }
 
   .block {
+    margin-top: 25px;
     grid-column-start: 2;
     grid-column-end: 3;
+  }
+
+  .error {
+    color: #e74c3c;
+  }
+
+  .hint {
+    font-size: 16px;
+    margin: 0 0 10px 0;
   }
 
   table {
     margin-top: 50px;
     width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+      text-align: left;
+      padding: 5px;
+      border-bottom: 1px solid #555;
+    }
+  }
+
+  .pagination {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-top: 20px;
+
+    .button {
+      width: 100%;
+      margin-top: 0;
+    }
+
+    &__label {
+      order: -1;
+      text-align: center;
+    }
+
+    &__label--wide {
+      display: none;
+    }
+
+    @include media('>desktop') {
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      &__label {
+        order: 0;
+      }
+
+      &__label--narrow {
+        display: none;
+      }
+
+      &__label--wide {
+        display: inline;
+      }
+
+      .button {
+        width: 124px;
+      }
+    }
   }
 }
 </style>
-../components/TheButton.vue

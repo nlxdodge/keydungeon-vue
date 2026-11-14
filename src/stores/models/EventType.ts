@@ -1,11 +1,15 @@
-export enum EventType {
-    login_attempt,
-    login,
-    logout,
-    user_show,
-    user_update,
-    password_create,
-    password_show,
-    password_update,
-    password_delete
-}
+export const EventTypes = [
+  'SignIn',
+  'SignOut',
+  'CreatePassword',
+  'ShowPasswords',
+  'RevealPassword',
+  'EditPassword',
+  'DeletePassword',
+  'CreateUser',
+  'ShowUser',
+  'EditUser',
+  'DeleteUser'
+] as const
+
+export type EventType = (typeof EventTypes)[number]

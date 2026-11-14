@@ -3,8 +3,8 @@
     id="app"
     :class="backgroundColorClass"
   >
-    <header>
-      <nav v-if="signedIn">
+    <header v-if="auth.isAuthenticated">
+      <nav>
         <img
           src="./assets/images/key_small.svg"
           alt="Logo"
@@ -15,22 +15,34 @@
         <router-link to="/user">
           User
         </router-link>
-        <div
+        <button
+          type="button"
           class="sign-off"
-          @click="signedIn != signedIn"
+          @click="signOff"
         >
-          Sign Off
-        </div>
+          Sign out
+        </button>
       </nav>
     </header>
     <RouterView />
+    <NotificationModal />
   </div>
 </template>
 
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-let signedIn = true;
-let backgroundColorClass = 'dark';
+import { useRouter, RouterLink, RouterView } from 'vue-router'
+import NotificationModal from '@/components/NotificationModal.vue'
+import { useAuthStore } from '@/stores/authStore'
+
+const auth = useAuthStore()
+const router = useRouter()
+
+const backgroundColorClass = 'dark'
+
+function signOff() {
+  auth.logout()
+  router.push('/')
+}
 </script>
 
 <style lang="scss">
@@ -77,6 +89,13 @@ header {
     a {
       color: #fff;
       text-decoration: none;
+    }
+
+    .sign-off {
+      background: none;
+      border: none;
+      color: #fff;
+      font: inherit;
     }
 
     img {

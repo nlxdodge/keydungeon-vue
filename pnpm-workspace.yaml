@@ -1,0 +1,7 @@
+allowBuilds:
+  '@parcel/watcher': true
+minimumReleaseAgeExclude:
+  - prettier@3.10.0
+  - sass@1.108.2
+  - vite@8.3.8
+  - '@tsconfig/node22@22.0.7'

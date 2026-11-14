@@ -3,12 +3,20 @@
     <div class="block">
       <h1>Keydungeon</h1>
       <img src="../assets/images/key_logo_alt.svg" alt="Keydungeon Alt Logo" />
-      <form @submit.prevent="submitForm()">
-        <InputLine name="username" :v-model="email" v-focus/>
-        <InputLine name="password" type="password" :v-model="password"/>
+      <form @submit.prevent="submitForm">
+        <InputLine name="username" v-model="username" autocomplete="username" v-focus />
+        <InputLine
+          name="password"
+          type="password"
+          v-model="password"
+          autocomplete="current-password"
+        />
+        <p v-if="auth.error" class="error">{{ auth.error }}</p>
         <div class="actions">
-          <TheButton href="/sign-up">Sign Up</TheButton>
-          <TheButton @submit.prevent="submitForm()">Sign In</TheButton>
+          <TheButton href="/sign-up">Sign up</TheButton>
+          <TheButton type="submit" :disabled="auth.loading">
+            {{ auth.loading ? 'Signing in…' : 'Sign in' }}
+          </TheButton>
         </div>
       </form>
     </div>
@@ -16,21 +24,29 @@
 </template>
 
 <script setup lang="ts">
-import InputLine from '@/components/InputLine.vue';
-import { ref } from 'vue';
-import TheButton from '../components/TheButton.vue';
+import InputLine from '@/components/InputLine.vue'
+import TheButton from '@/components/TheButton.vue'
+import { useAuthStore } from '@/stores/authStore'
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-const email = ref('')
+const auth = useAuthStore()
+const route = useRoute()
+const router = useRouter()
+
+const username = ref('')
 const password = ref('')
 
-function submitForm() {
-  // TODO SET JWT TOKEN
-  return (
-    email.value.length > 8 &&
-    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()\-=_+`~;:<>,.{}[\]|\\]).{8,}$/.test(
-      password.value
-    )
-  )
+async function submitForm() {
+  if (!username.value || !password.value) return
+
+  try {
+    await auth.login(username.value, password.value)
+    const redirect = route.query.redirect
+    await router.push(typeof redirect === 'string' ? redirect : '/passwords')
+  } catch {
+    // The error is exposed through the auth store.
+  }
 }
 </script>
 
@@ -41,6 +57,7 @@ function submitForm() {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  background-color: $template-color-dark;
   .block {
     max-width: 300px;
     padding: 25px 25px 25px 25px;
@@ -59,11 +76,19 @@ function submitForm() {
     label {
       display: block;
     }
+    .input-line {
+      grid-template-columns: 100%;
+    }
     input[type='text'],
     input[type='password'] {
       width: 100%;
       font-size: 22px;
       border: 1px solid #cbcbcb;
+    }
+    .error {
+      color: #c0392b;
+      font-size: 18px;
+      margin: 10px 0 0 0;
     }
     .actions {
       display: flex;
@@ -77,4 +102,3 @@ function submitForm() {
   }
 }
 </style>
-../components/TheButton.vue

@@ -1,0 +1,33 @@
+name: Deploy to Web
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build and Deploy
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install latest pnpm
+        uses: pnpm/action-setup@v4
+      - name: Install latest LTS Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline
+      - name: Generate production build
+        run: pnpm run build
+      - name: Deploy files to production environment
+        uses: sebastianpopp/ftp-action@releases/v2
+        with:
+          host: ${{ secrets.FTP_DOMAIN }}
+          user: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          localDir: './dist'
+          remoteDir: './key'
+          options: '--parallel=4 --only-newer'
