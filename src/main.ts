@@ -25,11 +25,5 @@ setUnauthorizedHandler(() => {
 
 app.use(router)
 
-// when going to a new page use v-focus to auto focus this element
-app.directive('focus', {
-  mounted(el) {
-    el.focus()
-  }
-})
 
 app.mount('#app')

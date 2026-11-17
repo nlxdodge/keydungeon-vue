@@ -4,7 +4,7 @@
       <h1>Keydungeon</h1>
       <img src="../assets/images/key_logo_alt.svg" alt="Keydungeon Alt Logo" />
       <form @submit.prevent="submitForm">
-        <InputLine name="username" v-model="username" autocomplete="username" v-focus />
+        <InputLine name="username" v-model="username" autocomplete="username" autofocus />
         <InputLine
           name="password"
           type="password"

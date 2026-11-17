@@ -3,8 +3,8 @@
     <div class="block">
       <p v-if="loadError" class="error">{{ loadError }}</p>
       <form @submit.prevent="submitForm">
-        <InputLine name="username" v-model="username" autocomplete="username" v-focus />
-        <InputLine name="password" type="password" v-model="password" autocomplete="new-password" />
+        <InputLine name="username" v-model="username" autocomplete="off" autofocus />
+        <InputLine name="password" type="password" v-model="password" autocomplete="off" />
         <p class="hint">Leave the password empty to keep your current one.</p>
         <TheButton type="submit" :disabled="saving">
           {{ saving ? 'Saving…' : 'Save' }}

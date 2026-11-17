@@ -2,6 +2,7 @@
   <div class="input-line">
     <label :for="'label-' + props.name">{{ toUpperCaseFirst(props.name) }}:</label>
     <input
+      ref="input"
       :id="'label-' + props.name"
       :name="props.name"
       :type="props.type"
@@ -13,18 +14,27 @@
 
 <script setup lang="ts">
 import { toUpperCaseFirst } from '@/mixins'
+import { onMounted, ref } from 'vue'
 
 interface Props {
   name: string
   type?: string
   autocomplete?: string
+  autofocus?: boolean
 }
 
 const model = defineModel<string>()
 const props = withDefaults(defineProps<Props>(), {
   name: '',
   type: 'text',
-  autocomplete: 'off'
+  autocomplete: 'off',
+  autofocus: false
+})
+
+const input = ref<HTMLInputElement | null>(null)
+
+onMounted(() => {
+  if (props.autofocus) input.value?.focus()
 })
 </script>
 

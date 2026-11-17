@@ -4,14 +4,14 @@
       <h1>{{ editing ? 'Edit password' : 'Add password' }}</h1>
       <p v-if="loadError" class="error">{{ loadError }}</p>
       <form v-if="!loadError" @submit.prevent="submitForm">
-        <InputLine name="url" v-model="form.url" v-focus />
+        <InputLine name="url" v-model="form.url" autofocus />
         <InputLine name="name" v-model="form.name" />
         <InputLine name="username" v-model="form.username" autocomplete="off" />
         <InputLine
           name="password"
           type="password"
           v-model="form.password"
-          autocomplete="new-password"
+          autocomplete="off"
         />
         <div class="actions">
           <TheButton href="/passwords">Back</TheButton>
