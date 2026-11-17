@@ -22,15 +22,15 @@ services:
       retries: 3
       start_period: 5s
     networks:
-      - keydungeon
+      - global
     labels:
       - "traefik.http.routers.keydungeon.rule=Host(`key.gerbenveenhof.nl`)"
       - "traefik.http.services.keydungeon.loadbalancer.server.port=8080"
       - "traefik.http.routers.keydungeon.tls.certresolver=letsencrypt"
       - "traefik.http.routers.keydungeon.entrypoints=websecure"
-      - "traefik.docker.network=keydungeon"
+      - "traefik.docker.network=global"
       - "traefik.enable=true"
 
 networks:
   keydungeon:
-    name: keydungeon
+    name: global
