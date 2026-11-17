@@ -22,7 +22,7 @@ services:
     networks:
       - global
     labels:
-      - "traefik.http.routers.keydungeon.rule=Host(`key.gerbenveenhof.nl`) && !PathPrefix(/api)"
+      - "traefik.http.routers.keydungeon.rule=Host(`key.gerbenveenhof.nl`) && !PathPrefix(`/api`)"
       - "traefik.http.services.keydungeon.loadbalancer.server.port=8080"
       - "traefik.http.routers.keydungeon.tls.certresolver=letsencrypt"
       - "traefik.http.routers.keydungeon.entrypoints=websecure"
