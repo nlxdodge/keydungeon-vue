@@ -1,0 +1,15 @@
+*
+!src
+!src/**
+!public
+!public/**
+!index.html
+!package.json
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+!env.d.ts
+!tsconfig*.json
+!vite.config.ts
+!.env.production
+!nginx.conf
+!Containerfile
