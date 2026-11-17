@@ -30,5 +30,6 @@ services:
       - "traefik.enable=true"
 
 networks:
-  keydungeon:
-    name: global
+  default:
+    external:
+      name: global
