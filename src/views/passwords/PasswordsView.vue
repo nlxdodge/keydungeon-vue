@@ -2,7 +2,7 @@
   <div class="passwords-view">
     <div class="filter">
       <p>You currently have {{ store.total }} accounts</p>
-      <TheButton href="/passwords/add">Add</TheButton>
+      <TheButton to="/passwords/add">Add</TheButton>
       <InputLine name="filter" v-model="filter" autofocus autocomplete="off" />
     </div>
     <p v-if="store.error" class="error">{{ store.error }}</p>

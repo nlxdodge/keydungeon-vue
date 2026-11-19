@@ -5,7 +5,7 @@
     </a>
     <p>{{ props.password.username }}</p>
     <div class="actions">
-      <TheButton :href="'/passwords/edit/' + props.password.uuid">Edit</TheButton>
+      <TheButton :to="'/passwords/edit/' + props.password.uuid">Edit</TheButton>
       <TheButton type="button" :disabled="copying" @click="copy">
         {{ copying ? 'Copying…' : 'Copy' }}
       </TheButton>

@@ -1,7 +1,7 @@
 <template>
-  <a v-if="props.href !== undefined" :href="props.href" class="button" :class="variantClass">
+  <RouterLink v-if="props.to !== undefined" :to="props.to" class="button" :class="variantClass">
     <slot />
-  </a>
+  </RouterLink>
   <button
     v-else
     :type="props.type"
@@ -15,9 +15,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { RouterLink, type RouteLocationRaw } from 'vue-router'
 
 interface Props {
-  href?: string
+  to?: RouteLocationRaw
   type?: 'button' | 'submit' | 'reset'
   variant?: 'default' | 'danger'
   disabled?: boolean

@@ -14,7 +14,7 @@
           autocomplete="off"
         />
         <div class="actions">
-          <TheButton href="/passwords">Back</TheButton>
+          <TheButton to="/passwords">Back</TheButton>
           <TheButton type="submit" :disabled="saving">
             {{ saving ? 'Saving…' : 'Save' }}
           </TheButton>

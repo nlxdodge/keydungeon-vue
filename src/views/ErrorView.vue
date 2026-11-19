@@ -2,7 +2,7 @@
   <div class="error-view">
     <div class="block">
       <h1>This page does not exist</h1>
-      <TheButton type="button" href="/passwords">View passwords</TheButton>
+      <TheButton to="/passwords">View passwords</TheButton>
     </div>
   </div>
 </template>

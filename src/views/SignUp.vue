@@ -13,7 +13,7 @@
         />
         <p v-if="auth.error" class="error">{{ auth.error }}</p>
         <div class="actions">
-          <TheButton href="/">Back</TheButton>
+          <TheButton to="/">Back</TheButton>
           <TheButton type="submit" :disabled="auth.loading">
             {{ auth.loading ? 'Signing up…' : 'Sign up' }}
           </TheButton>
