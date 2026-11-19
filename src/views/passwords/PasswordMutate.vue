@@ -1,18 +1,12 @@
 <template>
   <div class="password-mutate">
     <div class="block">
-      <h1>{{ editing ? 'Edit password' : 'Add password' }}</h1>
       <p v-if="loadError" class="error">{{ loadError }}</p>
       <form v-if="!loadError" @submit.prevent="submitForm">
-        <InputLine name="url" v-model="form.url" autofocus />
-        <InputLine name="name" v-model="form.name" />
+        <InputLine name="url" v-model="form.url" autofocus autocomplete="off" />
+        <InputLine name="name" v-model="form.name" autocomplete="off" />
         <InputLine name="username" v-model="form.username" autocomplete="off" />
-        <InputLine
-          name="password"
-          type="password"
-          v-model="form.password"
-          autocomplete="off"
-        />
+        <InputLine name="password" type="password" v-model="form.password" autocomplete="off" />
         <div class="actions">
           <TheButton to="/passwords">Back</TheButton>
           <TheButton type="submit" :disabled="saving">
@@ -139,11 +133,11 @@ async function deletePassword() {
   grid-template-columns: 10% 80% 10%;
 
   @include media('>tablet', '<desktop') {
-    grid-template-columns: 20% 60% 20%;
+    grid-template-columns: 15% 70% 15%;
   }
 
   @include media('>desktop') {
-    grid-template-columns: 35% 30% 35%;
+    grid-template-columns: 30% 40% 30%;
   }
 
   .block {
@@ -157,6 +151,7 @@ async function deletePassword() {
   }
 
   .actions {
+    margin-top: 25px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

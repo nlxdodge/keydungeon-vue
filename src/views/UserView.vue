@@ -5,34 +5,38 @@
       <form @submit.prevent="submitForm">
         <InputLine name="username" v-model="username" autocomplete="off" autofocus />
         <InputLine name="password" type="password" v-model="password" autocomplete="off" />
-        <p class="hint">Leave the password empty to keep your current one.</p>
-        <TheButton type="submit" :disabled="saving">
-          {{ saving ? 'Saving…' : 'Save' }}
-        </TheButton>
+        <div class="actions">
+          <p class="hint">Leave the password empty to keep your current one.</p>
+          <TheButton type="submit" :disabled="saving">
+            {{ saving ? 'Saving…' : 'Save' }}
+          </TheButton>
+        </div>
       </form>
       <p v-if="events.error" class="error">{{ events.error }}</p>
-      <table>
-        <caption>
-          Past events:
-        </caption>
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Details</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="event in events.events" :key="event.uuid">
-            <td>{{ formatEventType(event.event_type) }}</td>
-            <td>{{ event.metadata }}</td>
-            <td>{{ formatDate(event.timestamp) }}</td>
-          </tr>
-          <tr v-if="events.events.length === 0">
-            <td colspan="3">No events found.</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-scroll">
+        <table>
+          <caption>
+            Past events:
+          </caption>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Details</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="event in events.events" :key="event.uuid">
+              <td>{{ formatEventType(event.event_type) }}</td>
+              <td>{{ event.metadata }}</td>
+              <td>{{ formatDate(event.timestamp) }}</td>
+            </tr>
+            <tr v-if="events.events.length === 0">
+              <td colspan="3">No events found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <div v-if="eventTotalPages > 1" class="pagination">
         <span class="pagination__label pagination__label--wide">
           {{ events.page }} | {{ eventTotalPages }}
@@ -151,14 +155,15 @@ function formatDate(timestamp: string) {
   grid-template-columns: 10% 80% 10%;
 
   @include media('>tablet', '<desktop') {
-    grid-template-columns: 20% 60% 20%;
+    grid-template-columns: 15% 70% 15%;
   }
 
   @include media('>desktop') {
-    grid-template-columns: 35% 30% 35%;
+    grid-template-columns: 30% 40% 30%;
   }
 
   .block {
+    min-width: 0;
     margin-top: 25px;
     grid-column-start: 2;
     grid-column-end: 3;
@@ -168,14 +173,29 @@ function formatDate(timestamp: string) {
     color: #e74c3c;
   }
 
+  .actions {
+    margin-top: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
   .hint {
     font-size: 16px;
-    margin: 0 0 10px 0;
+    margin: 0;
+  }
+
+  .table-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   table {
     margin-top: 50px;
     width: 100%;
+    table-layout: fixed;
     border-collapse: collapse;
 
     th,
@@ -183,6 +203,7 @@ function formatDate(timestamp: string) {
       text-align: left;
       padding: 5px;
       border-bottom: 1px solid #555;
+      overflow-wrap: anywhere;
     }
   }
 
