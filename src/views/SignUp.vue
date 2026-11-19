@@ -4,12 +4,19 @@
       <h1>Keydungeon</h1>
       <img src="../assets/images/key_logo_alt.svg" alt="Keydungeon Alt Logo" />
       <form @submit.prevent="submitForm">
-        <InputLine name="username" v-model="username" autocomplete="username" autofocus />
+        <InputLine
+          name="username"
+          v-model="username"
+          autocomplete="username"
+          autofocus
+          :disabled="auth.loading"
+        />
         <InputLine
           name="password"
           type="password"
           v-model="password"
           autocomplete="new-password"
+          :disabled="auth.loading"
         />
         <p v-if="auth.error" class="error">{{ auth.error }}</p>
         <div class="actions">
@@ -37,7 +44,7 @@ const username = ref('')
 const password = ref('')
 
 async function submitForm() {
-  if (!username.value || !password.value) return
+  if (auth.loading || !username.value || !password.value) return
 
   try {
     await auth.register(username.value, password.value)

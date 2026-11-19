@@ -7,6 +7,7 @@
       :name="props.name"
       :type="props.type"
       :autocomplete="props.autocomplete"
+      :disabled="props.disabled"
       v-model="model"
     />
   </div>
@@ -21,6 +22,7 @@ interface Props {
   type?: string
   autocomplete?: string
   autofocus?: boolean
+  disabled?: boolean
 }
 
 const model = defineModel<string>()
@@ -28,7 +30,8 @@ const props = withDefaults(defineProps<Props>(), {
   name: '',
   type: 'text',
   autocomplete: 'off',
-  autofocus: false
+  autofocus: false,
+  disabled: false
 })
 
 const input = ref<HTMLInputElement | null>(null)

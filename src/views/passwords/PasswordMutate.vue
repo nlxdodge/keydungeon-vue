@@ -3,17 +3,42 @@
     <div class="block">
       <p v-if="loadError" class="error">{{ loadError }}</p>
       <form v-if="!loadError" @submit.prevent="submitForm">
-        <InputLine name="url" v-model="form.url" autofocus autocomplete="off" />
-        <InputLine name="name" v-model="form.name" autocomplete="off" />
-        <InputLine name="username" v-model="form.username" autocomplete="off" />
-        <InputLine name="password" type="password" v-model="form.password" autocomplete="off" />
+        <InputLine
+          name="url"
+          v-model="form.url"
+          autofocus
+          autocomplete="off"
+          :disabled="saving"
+        />
+        <InputLine name="name" v-model="form.name" autocomplete="off" :disabled="saving" />
+        <InputLine
+          name="username"
+          v-model="form.username"
+          autocomplete="off"
+          :disabled="saving"
+        />
+        <InputLine
+          name="password"
+          type="password"
+          v-model="form.password"
+          autocomplete="off"
+          :disabled="saving"
+        />
         <div class="actions">
           <TheButton to="/passwords">Back</TheButton>
           <TheButton type="submit" :disabled="saving">
             {{ saving ? 'Saving…' : 'Save' }}
           </TheButton>
-          <TheButton type="button" @click="generatePassword">Generate</TheButton>
-          <TheButton v-if="editing" type="button" variant="danger" @click="showDelete = true">
+          <TheButton type="button" :disabled="saving" @click="generatePassword">
+            Generate
+          </TheButton>
+          <TheButton
+            v-if="editing"
+            type="button"
+            variant="danger"
+            :disabled="saving"
+            @click="showDelete = true"
+          >
             Delete
           </TheButton>
         </div>
@@ -86,6 +111,8 @@ function generatePassword() {
 }
 
 async function submitForm() {
+  if (saving.value) return
+
   if (!form.name || !form.username || !form.password) {
     notifications.show('Name, username and password are required.', 'error')
     return

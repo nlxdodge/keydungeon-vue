@@ -3,8 +3,20 @@
     <div class="block">
       <p v-if="loadError" class="error">{{ loadError }}</p>
       <form @submit.prevent="submitForm">
-        <InputLine name="username" v-model="username" autocomplete="off" autofocus />
-        <InputLine name="password" type="password" v-model="password" autocomplete="off" />
+        <InputLine
+          name="username"
+          v-model="username"
+          autocomplete="off"
+          autofocus
+          :disabled="saving"
+        />
+        <InputLine
+          name="password"
+          type="password"
+          v-model="password"
+          autocomplete="off"
+          :disabled="saving"
+        />
         <p class="hint">Leave the password empty to keep your current one.</p>
         <div class="actions">
           <TheButton type="submit" :disabled="saving">
@@ -99,6 +111,8 @@ onMounted(async () => {
 })
 
 async function submitForm() {
+  if (saving.value) return
+
   const payload: UpdateUserRequest = {}
   const trimmedUsername = username.value.trim()
 
