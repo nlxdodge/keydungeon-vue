@@ -182,6 +182,7 @@ function formatDate(timestamp: string) {
   }
 
   .hint {
+    text-align: center;
     font-size: 16px;
     margin: 0;
   }
