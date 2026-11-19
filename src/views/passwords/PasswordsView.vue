@@ -50,7 +50,7 @@ const totalPages = computed(() => Math.max(1, Math.ceil(store.total / store.limi
 let searchTimeout: ReturnType<typeof setTimeout> | null = null
 
 onMounted(() => {
-  store.fetchPasswords({ page: 1, limit: 15, search: filter.value }).catch(() => null)
+  store.fetchPasswords({ page: store.page, limit: 15, search: filter.value }).catch(() => null)
 })
 
 watch(filter, (value) => {
