@@ -151,7 +151,7 @@ function formatDate(timestamp: string) {
 
 <style lang="scss">
 .user-view {
-  margin: 0 30px;
+  margin: 30px 0;
   display: grid;
   grid-template-columns: 10% 80% 10%;
 

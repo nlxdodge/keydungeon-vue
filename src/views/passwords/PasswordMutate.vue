@@ -129,7 +129,7 @@ async function deletePassword() {
 
 <style lang="scss">
 .password-mutate {
-  margin: 0 30px;
+  margin: 30px 0;
   display: grid;
   grid-template-columns: 10% 80% 10%;
 
