@@ -5,8 +5,8 @@
       <form @submit.prevent="submitForm">
         <InputLine name="username" v-model="username" autocomplete="off" autofocus />
         <InputLine name="password" type="password" v-model="password" autocomplete="off" />
+        <p class="hint">Leave the password empty to keep your current one.</p>
         <div class="actions">
-          <p class="hint">Leave the password empty to keep your current one.</p>
           <TheButton type="submit" :disabled="saving">
             {{ saving ? 'Saving…' : 'Save' }}
           </TheButton>
@@ -151,6 +151,7 @@ function formatDate(timestamp: string) {
 
 <style lang="scss">
 .user-view {
+  margin: 0 30px;
   display: grid;
   grid-template-columns: 10% 80% 10%;
 
@@ -164,7 +165,6 @@ function formatDate(timestamp: string) {
 
   .block {
     min-width: 0;
-    margin-top: 25px;
     grid-column-start: 2;
     grid-column-end: 3;
   }
